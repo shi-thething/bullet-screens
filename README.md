@@ -18,7 +18,7 @@ const player = new BulletScreen(options)
 | methed | 入参 | 描述 |
 | --- | --- | --- |
 |setOptions| options | 动态设置 options key无法通过此方法更改 |
-|add| Array | Object| 新增弹幕元素，同时开启弹幕动画 |
+|add| Array / Object| 新增弹幕元素，同时开启弹幕动画 |
 |play| - |弹幕效果开启|
 |pause| - |弹幕效果暂停|
 |stop| - |停止并情况所有弹幕|
