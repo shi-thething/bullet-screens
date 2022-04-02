@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #player {
+        position: relative;
+        height: 500px;
+        width: 800px;
+        margin: 100px auto;
+        overflow: hidden;
+        background: #c6eefd;
+    }
+
+    .player-bullet {
+        background: #64cf7a;
+        padding: 0 20px;
+        border-radius: 18px;
+        line-height: 36px;
+        color: white;
+        font-weight: 600;
+        pointer-events: all;
+        opacity: 0.6;
+    }
+</style>
+
+<body>
+    <div id="player"></div>
+    <div id="control">
+        <button onclick="bulletScreensAdd()">随机添加一个</button>
+        <br />
+        <button onclick="window.bulletScreens.pause()">暂停</button>
+        <button onclick="window.bulletScreens.play()">继续</button>
+        <button onclick="window.bulletScreens.stop()">清空</button>
+        <br />
+        <button onclick="bulletScreensSpeed(0.2)">速度/5</button>
+        <button onclick="bulletScreensSpeed(5)">速度*5</button>
+    </div>
+</body>
+<script src="../dist/main.js"></script>
+<script>
+    // 初始化弹幕
+    const initBulletScreens = (id) => {
+        window.bulletScreens = new window.BulletScreen({
+            el: document.getElementById(id),
+            key: 'id',
+            // 默认样式，可以由播放器组件通过slot实现
+            bulletRender: (bullet) => {
+                const el = document.createElement('div');
+                el.setAttribute('class', 'player-bullet');
+                el.innerHTML = bullet.value
+                return el
+            }
+        });
+    }
+
+    function bulletScreensAdd() {
+        var text = Math.random().toString()
+        window.bulletScreens.add([{
+            id: text,
+            value: text
+        }])
+    }
+    function bulletScreensSpeed(times) {
+        let speed = window.bulletScreens.options.speed
+        speed = speed * times
+        if (speed < 0.1) {
+            speed = 0.1
+        } else if (speed > 20) {
+            speed = 20
+        }
+        window.bulletScreens.setOptions({ speed })
+    }
+
+    window.onload = function () {
+        initBulletScreens('player')
+    }
+
+</script>
+
+</html>
