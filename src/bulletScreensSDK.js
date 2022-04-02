@@ -166,10 +166,6 @@ class BulletScreen {
       key: 'id',
       // 速度，初始速度1正常（后续对1需要定义）
       speed: 1,
-      // 默认字体 16px
-      fontSize: '16px',
-      // 默认透明度 0.8
-      opacity: 0.8,
       // 弹幕初始化需要挂载的对象，可以是DOM或者CSS选择器（也可以在初始化完成后选择合适的时机使用mount函数挂载）
       el: ''
     }
@@ -196,8 +192,9 @@ class BulletScreen {
     // this.play()
   }
   // 添加弹幕: list 弹幕列表
-  add(list) {
-    list.forEach(d => {
+  add(datas) {
+    if (!Array.isArray(datas)) datas = [datas]
+    datas.forEach(d => {
       if (!d.hasOwnProperty(this.screen.key)) throw (new Error('The current object has no key, key is require, please set options.key'))
       if (!this.screen.bullets.get(d[this.screen.key])) {
         const bullet = new Bullet({ data: d, render: this.options.bulletRender })
