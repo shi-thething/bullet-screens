@@ -37,6 +37,9 @@
 <body>
     <div id="player"></div>
     <div id="control">
+        <button onclick="bulletScreensType({model:'fixed',height:40})">固定弹道</button>
+        <button onclick="bulletScreensType(null)">随机弹道</button>
+        <br />
         <button onclick="bulletScreensAdd()">随机添加一个</button>
         <br />
         <button onclick="window.bulletScreens.pause()">暂停</button>
@@ -50,7 +53,7 @@
 <script src="../dist/main.js"></script>
 <script>
     // 初始化弹幕
-    const initBulletScreens = (id) => {
+    const initBulletScreens = (id, options) => {
         window.bulletScreens = new window.BulletScreen({
             el: document.getElementById(id),
             key: 'id',
@@ -60,7 +63,8 @@
                 el.setAttribute('class', 'player-bullet');
                 el.innerHTML = bullet.value
                 return el
-            }
+            },
+            ...options
         });
     }
 
@@ -80,6 +84,10 @@
             speed = 20
         }
         window.bulletScreens.setOptions({ speed })
+    }
+    function bulletScreensType(ballistic) {
+        window.bulletScreens.destroy()
+        initBulletScreens('player',{ ballistic })
     }
 
     window.onload = function () {
